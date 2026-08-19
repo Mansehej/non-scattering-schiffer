@@ -18,9 +18,10 @@ The release distinguishes three layers.
 The generic lemmas are stated in the form the paper uses but are not
 instantiated on the concrete coefficient spaces.  The Lean development is a
 third independent checker of the scalar arithmetic, not a formalization of
-the non-scattering theorem.  The sources have not yet been kernel-checked:
-a pinned-toolchain CI build with archived log and `#print axioms` report is
-an open pre-publication gate.
+the non-scattering theorem.  The sources are kernel-checked: the pinned
+Lean/mathlib v4.32.1 build succeeds with zero warnings and the
+`#print axioms` report shows only standard classical axioms
+(`verification/lean_kernel_build_v1.2.1.log`).
 
 ## Imported theorem dependency
 
@@ -44,10 +45,9 @@ them.
 
 The release therefore uses the precise phrase:
 
-> A Lean re-verification of the exact rational certificate arithmetic,
-> together with generic fixed-point and invertibility lemmas in the form
-> used by the paper.  A successful pinned-toolchain CI build is required
-> before calling the sources kernel-checked.
+> A kernel-checked Lean re-verification of the exact rational certificate
+> arithmetic, together with generic fixed-point and invertibility lemmas
+> in the form used by the paper.
 
 It does not claim a formalization of the non-scattering theorem, of the
 upstream MPFR proof, or of planar scattering theory.

@@ -488,10 +488,14 @@ rejects \texttt{sorry}, \texttt{admit}, \texttt{axiom},
 \texttt{native\_decide}, \texttt{opaque}, \texttt{unsafe},
 \texttt{partial}, and related escape hatches in the project sources, and
 \path{NonScattering/MainTheorem.lean} runs \texttt{\#print axioms} on the
-public theorems.  The packaging environment did not include the Lean
-toolchain: a fresh pinned-toolchain kernel build, with its log and axiom
-report archived, remains a pre-publication gate, and until then no claim
-stronger than ``source scan'' is made.
+public theorems.  The pinned-toolchain kernel build has been completed:
+\texttt{lake build} succeeds with zero warnings on Lean/mathlib v4.32.1,
+and the \texttt{\#print axioms} report shows only the standard classical
+axioms (\texttt{propext}, \texttt{Classical.choice},
+\texttt{Quot.sound}) for every public theorem.  The build log, the axiom
+report, and the pinned transitive dependency manifest are archived in
+\path{verification/lean\_kernel\_build\_v1.2.1.log} and
+\path{formalization/lake-manifest.json}.
 
 \section{Reproduction}
 

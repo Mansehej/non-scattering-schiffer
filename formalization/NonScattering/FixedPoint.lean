@@ -29,18 +29,19 @@ theorem dist_fixedPoints_le
       _ ≤ dist (T x) (T y) + dist (T y) (S y) := dist_triangle _ _ _
       _ ≤ κ * dist x y + ε := add_le_add (hcontract x y) hperturb
   apply (le_div_iff₀ hden).2
-  nlinarith [dist_nonneg x y]
+  have hd : (0 : ℝ) ≤ dist x y := dist_nonneg
+  nlinarith
 
 /-- Two fixed points of the same strict contraction coincide. -/
 theorem fixedPoint_unique_of_real_contraction
-    {α : Type*} [PseudoMetricSpace α]
+    {α : Type*} [MetricSpace α]
     {T : α → α} {x y : α} {κ : ℝ}
     (hκ : κ < 1)
     (hcontract : ∀ a b, dist (T a) (T b) ≤ κ * dist a b)
     (hx : IsFixedPt T x) (hy : IsFixedPt T y) : x = y := by
   have hzero : dist x y ≤ 0 := by
     simpa using (dist_fixedPoints_le hκ hcontract hx hy (show dist (T y) (T y) ≤ 0 by simp))
-  exact dist_eq_zero.mp (le_antisymm hzero (dist_nonneg x y))
+  exact dist_eq_zero.mp (le_antisymm hzero dist_nonneg)
 
 /-- A contraction on a nonempty complete metric space has exactly one fixed point. -/
 theorem contracting_existsUnique_fixedPoint

@@ -1,6 +1,6 @@
 # Exact non-scattering homogeneous dielectrics from Schiffer counterexamples
 
-**Preprint release v1.2.0 - 19 August 2026**
+**Preprint release v1.2.1 - 19 August 2026**
 
 This release accompanies the preprint
 
@@ -66,10 +66,10 @@ The Lean project is pinned to Lean/mathlib v4.32.1.  It re-verifies the
 exact rational certificate arithmetic and states the generic fixed-point and
 invertibility lemmas in the form the paper uses.  It does **not** formalize
 the operator estimates, the upstream MPFR theorem, or the scattering
-analysis; see `formalization/README.md` for the precise scope.  A static
-scan finds no proof holes or project-defined axioms.  A pinned-toolchain CI
-build remains a pre-publication gate for this release: until it has run,
-the sources are not described as kernel-checked.
+analysis; see `formalization/README.md` for the precise scope.  The
+pinned-toolchain kernel build has been completed with zero warnings, and
+the `#print axioms` report shows only standard classical axioms; see
+`verification/lean_kernel_build_v1.2.1.log`.
 
 ## Licensing
 

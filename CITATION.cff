@@ -5,7 +5,7 @@ type: article
 authors:
   - family-names: Singh
     given-names: Mansehej
-version: 1.2.0
+version: 1.2.1
 date-released: 2026-08-19
 abstract: >-
   A proof of noncircular homogeneous isotropic dielectric inclusions that

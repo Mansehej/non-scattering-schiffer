@@ -9,6 +9,8 @@ the small exterior wavenumber `sqrt τ` into the fixed physical wavenumber one.
 
 namespace NonScattering
 
+noncomputable section
+
 /-- Constant relative permittivity after scaling to exterior wavenumber one. -/
 def contrast (p₀ τ : ℝ) : ℝ := p₀ ^ 2 / τ
 
@@ -53,5 +55,7 @@ theorem contrast_ne_one_on_certified_interval
     (hp₀ : 31 < p₀) (hτ₀ : 0 < τ) (hτ : τ ≤ 1 / 10^13) :
     contrast p₀ τ ≠ 1 :=
   ne_of_gt (contrast_gt_one_on_certified_interval hp₀ hτ₀ hτ)
+
+end
 
 end NonScattering

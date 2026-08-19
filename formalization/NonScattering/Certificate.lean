@@ -11,6 +11,8 @@ involved.  A successful pinned-toolchain build is the kernel-checking step.
 namespace NonScattering
 namespace Certificate
 
+noncomputable section
+
 /-- Upstream residual majorant. -/
 def Y : ℝ := 159 / 10^12
 
@@ -80,28 +82,33 @@ theorem perturbedLipschitz_at_tauMax_exact :
 
 /-- The invariant-ball inequality closes uniformly on the certified interval. -/
 theorem perturbedRadii_negative
-    {τ : ℝ} (hτ₀ : 0 ≤ τ) (hτ : τ ≤ tauMax) :
+    {τ : ℝ} (_hτ₀ : 0 ≤ τ) (hτ : τ ≤ tauMax) :
     perturbedRadii τ < 0 := by
-  have hcoeff : 0 ≤ alpha * valuePerturbation := by
+  have hcoeff : (0 : ℝ) ≤ alpha * valuePerturbation := by
     norm_num [alpha, valuePerturbation]
+  have hstep := mul_le_mul_of_nonneg_left hτ hcoeff
+  have hend : perturbedRadii tauMax < 0 := by
+    rw [perturbedRadii_at_tauMax_exact]
+    norm_num
   have hmono : perturbedRadii τ ≤ perturbedRadii tauMax := by
     unfold perturbedRadii
-    exact add_le_add_left (mul_le_mul_of_nonneg_left hτ hcoeff) _
-  rw [perturbedRadii_at_tauMax_exact] at hmono
-  norm_num at hmono ⊢
-  exact lt_of_le_of_lt hmono (by norm_num)
+    linarith
+  linarith
 
 /-- The contraction inequality closes uniformly on the certified interval. -/
 theorem perturbedLipschitz_lt_one
-    {τ : ℝ} (hτ₀ : 0 ≤ τ) (hτ : τ ≤ tauMax) :
+    {τ : ℝ} (_hτ₀ : 0 ≤ τ) (hτ : τ ≤ tauMax) :
     perturbedLipschitz τ < 1 := by
-  have hcoeff : 0 ≤ alpha * derivativePerturbation := by
+  have hcoeff : (0 : ℝ) ≤ alpha * derivativePerturbation := by
     norm_num [alpha, derivativePerturbation]
+  have hstep := mul_le_mul_of_nonneg_left hτ hcoeff
+  have hend : perturbedLipschitz tauMax < 1 := by
+    rw [perturbedLipschitz_at_tauMax_exact]
+    norm_num
   have hmono : perturbedLipschitz τ ≤ perturbedLipschitz tauMax := by
     unfold perturbedLipschitz
-    exact add_le_add_left (mul_le_mul_of_nonneg_left hτ hcoeff) _
-  rw [perturbedLipschitz_at_tauMax_exact] at hmono
-  exact lt_of_le_of_lt hmono (by norm_num)
+    linarith
+  linarith
 
 /-- Combined uniform certificate. -/
 theorem uniform_extension_certificate
@@ -124,6 +131,8 @@ theorem derivative_majorant_arithmetic :
 /-- Positivity of the uniform endpoint. -/
 theorem tauMax_pos : 0 < tauMax := by
   norm_num [tauMax]
+
+end
 
 end Certificate
 end NonScattering

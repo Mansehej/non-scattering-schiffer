@@ -1,9 +1,11 @@
 # Lean 4 certificate-arithmetic project
 
 This Lake project is pinned to Lean/mathlib `v4.32.1`.  Its scope is
-deliberately narrow and is stated precisely below; the project has not yet
-been kernel-checked, and no claim beyond "source scan" is made until the
-pinned-toolchain CI build has succeeded and its log has been archived.
+deliberately narrow and is stated precisely below.  The pinned-toolchain
+kernel build succeeds with zero warnings, and the `#print axioms` report
+shows only Lean/mathlib's standard classical axioms; the archived log is
+`../verification/lean_kernel_build_v1.2.1.log` and the pinned transitive
+dependencies are in `lake-manifest.json`.
 
 ## What the sources state and prove
 

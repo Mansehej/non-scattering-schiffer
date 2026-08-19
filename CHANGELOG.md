@@ -1,5 +1,22 @@
 # Changelog
 
+## v1.2.1 - 2026-08-19
+
+- Completed the pinned-toolchain Lean kernel build (Lean/mathlib v4.32.1):
+  `lake build` succeeds with zero warnings and the `#print axioms` report
+  shows only standard classical axioms for every public theorem.  Archived
+  the build log and the pinned transitive dependency manifest
+  (`verification/lean_kernel_build_v1.2.1.log`,
+  `formalization/lake-manifest.json`).
+- First-compile fixes to the Lean sources: marked real-valued definitions
+  noncomputable, corrected `dist_nonneg` usages, required `MetricSpace` for
+  the fixed-point uniqueness lemma, and replaced two monotonicity steps
+  with `linarith`.  No theorem statement weakened; the fixed-point
+  uniqueness lemma was correctly strengthened from pseudometric to metric
+  spaces.
+- Updated every document that had described the kernel build as an open
+  gate.
+
 ## v1.2.0 - 2026-08-19
 
 - Expanded the bibliography from 4 to 20 references covering the corner

@@ -1,0 +1,18 @@
+Pinned-toolchain Lean kernel build: SUCCESS
+date: 19 August 2026
+toolchain: leanprover/lean4:v4.32.1
+mathlib: rev 520045ab14e26149ee970e2e617ca04b09bde5d6 (inputRev v4.32.1)
+command: lake update && lake exe cache get && lake build
+result: Build completed successfully (8661 jobs), zero warnings
+
+#print axioms report (NonScattering/MainTheorem.lean):
+  NonScattering.Certificate.uniform_extension_certificate : [propext, Classical.choice, Quot.sound]
+  NonScattering.contracting_existsUnique_fixedPoint       : [propext, Classical.choice, Quot.sound]
+  NonScattering.dist_fixedPoints_le                       : [propext, Classical.choice, Quot.sound]
+  NonScattering.bijective_right_of_bijective_comp         : [propext]
+  NonScattering.quantitative_continuation_layer           : [propext, Classical.choice, Quot.sound]
+  NonScattering.physical_material_layer                   : [propext, Classical.choice, Quot.sound]
+
+Only Lean/mathlib's standard classical axioms appear; no project-defined
+axioms and no sorryAx.  Transitive dependencies are pinned in
+formalization/lake-manifest.json, committed with this release.

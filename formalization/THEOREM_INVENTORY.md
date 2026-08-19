@@ -44,5 +44,7 @@ operator-level perturbation estimates, and all scattering analysis live in
 the paper.  `MainTheorem.lean` runs `#print axioms` on the public theorems.
 Any foundational entries reported there must come from Lean/mathlib's
 standard classical infrastructure; the source scan rejects project-defined
-axioms.  Neither the axiom report nor the build has been produced yet: a
-successful pinned-toolchain CI build is a pre-publication gate.
+axioms.  The pinned-toolchain build has been completed and the axiom report
+shows only `propext`, `Classical.choice`, and `Quot.sound` (and `propext`
+alone for `bijective_right_of_bijective_comp`); see
+`../verification/lean_kernel_build_v1.2.1.log`.
