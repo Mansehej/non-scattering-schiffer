@@ -7,6 +7,15 @@ authors:
     given-names: Mansehej
 version: 1.2.1
 date-released: 2026-08-19
+doi: 10.5281/zenodo.22016374
+repository-code: https://github.com/Mansehej/non-scattering-schiffer
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.22016374
+    description: Concept DOI for all archived versions
+  - type: doi
+    value: 10.5281/zenodo.22016375
+    description: Version 1.2.1 archive
 abstract: >-
   A proof of noncircular homogeneous isotropic dielectric inclusions that
   are exactly non-scattering for an explicit normalized Herglotz wave in
