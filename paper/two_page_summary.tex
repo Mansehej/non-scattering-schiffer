@@ -1,0 +1,133 @@
+\documentclass[10pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage[margin=0.68in]{geometry}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,urlcolor=blue!55!black,linkcolor=blue!45!black]{hyperref}
+\pagestyle{plain}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+\newcommand{\D}{\mathbb D}
+\newcommand{\norm}[1]{\lVert#1\rVert}
+
+\begin{document}
+\begin{center}
+{\Large\bfseries Exact non-scattering homogeneous dielectrics from Schiffer counterexamples}\\[3pt]
+{\large Two-page technical summary for Matthew Colbrook and George Stepaniants}\\[2pt]
+Mansehej Singh \hfill 19 August 2026
+\end{center}
+
+\textbf{Claim.}
+Using your authenticated regular Schiffer zero as the sole large
+computer-assisted input, the same coefficient ball appears to contain a
+family of exact positive-frequency transmission solutions.  After scaling,
+the exterior wavenumber is fixed at $k=1$ and the incident field is the
+normalized Herglotz wave
+\[
+ v(x)=\sqrt{2\pi}J_0(|x|),\qquad h(\theta)=1/\sqrt{2\pi}.
+\]
+For every $0<\tau\le10^{-13}$ the proposed exact domain and contrast are
+\[
+ \Omega_\tau=\sqrt\tau\,\phi_{p_\tau}(\D),
+ \qquad q_\tau=p_{\tau,0}^2/\tau.
+\]
+The domain stays in your certified univalent non-disc ball, $q_\tau>0$ and
+$q_\tau\ne1$, and both physical traces match exactly.
+
+\textbf{Perturbed fixed-disc equation.}
+Put
+\[
+ H_{\tau,p}=J_0(\sqrt\tau|\phi_p|)
+ =\sum_{n\ge0}\frac{(-1)^n}{(n!)^2}
+   \left(\frac{\tau|\phi_p|^2}{4}\right)^n.
+\]
+Conformal covariance gives
+\[
+ \Delta H_{\tau,p}+\frac{\tau}{p_0^2}|p|^2H_{\tau,p}=0.
+\]
+The exact equation is therefore
+\[
+ F_\tau(\gamma,p)=
+ \gamma+|p|^2K\gamma
+ +|p|^2\left(1-\frac\tau{p_0^2}\right)H_{\tau,p}=0.
+\]
+It reduces literally to your Schiffer equation at $\tau=0$.  If
+$W=K\gamma$, then $H_{\tau,p}+W$ solves the pulled-back interior equation,
+and $W=\partial_rW=0$ on the unit circle supplies exact Cauchy matching.
+
+\textbf{Conservative quantitative closure.}
+Only the simple authenticated majorants
+\[
+Y\le1.59\!\times\!10^{-10},\quad Z\le0.621,
+\quad C_2\le122,
+\quad C_3\le0.012,
+\quad r=10^{-6}
+\]
+are imported.  Since your formula is $C_3=\alpha/(96b^2)$ and the exact
+center has $b<32$,
+\[
+ \alpha<0.012\cdot96\cdot32^2=1179.648<1180.
+\]
+On the whole ball, $\norm p<55$, $p_0>31$, and
+$\phi=z\psi$ with $\norm\psi<1.1$, hence $\norm{|\phi|^2}<5/4$.
+The complete Bessel series, without truncation, gives
+\[
+ \norm{F_\tau-F_0}<1906\tau,
+ \qquad
+ \norm{D F_\tau-D F_0}<3\tau.
+\]
+Consequently, at the endpoint $\tau=10^{-13}$,
+\[
+ R_\tau\le-1.53810999999988\times10^{-7}<0,
+ \qquad
+ L_\tau\le0.621244000354036<1.
+\]
+Monotonicity gives the entire interval.  The regular-zero interpretation also
+follows abstractly from your invertible preconditioner and the Neumann bound,
+so the Banach-space implicit-function theorem produces a local branch before
+any quantitative endpoint is chosen.
+
+\textbf{Physical scaling.}
+In the unscaled domain, the exterior squared wavenumber is $\tau$ and the
+interior squared wavenumber is $p_{\tau,0}^2$.  With
+$y=\sqrt\tau x$, the exterior equation becomes $(\Delta_y+1)v=0$ and the
+interior equation becomes
+\[
+ (\Delta_y+p_{\tau,0}^2/\tau)U=0.
+\]
+The zero clamped traces remain zero under conformal and dilation factors.
+Thus the exterior total field is exactly $v$ and the scattered field is the
+zero radiating solution.
+
+\textbf{What I would most value you checking.}
+\begin{enumerate}[leftmargin=1.5em,itemsep=1pt,topsep=2pt]
+ \item Is the operator $F_\tau$ expressed in exactly the same fixed-disc
+ normalization and compatible range as your $F_0$?
+ \item Is the use of $C_3=\alpha/(96b^2)$ and the imported shape norm
+ convention exactly faithful to the released certificate?
+ \item Do you agree that the contraction proof makes the exact Schiffer zero
+ regular via invertibility of $\mathcal A DF_0=I-DT_0$?
+ \item Is there any attribution, collaboration, or dependency language you
+ would prefer before a public preprint is posted?
+\end{enumerate}
+
+\textbf{Formal and executable checks.}
+The supplement includes exact-rational Python and Node verifiers that
+rederive the perturbation constants from your certified ball bounds, a
+replay of your authenticated checker from the archived Zenodo release with
+a machine comparison of every imported value, and a narrow Lean 4/mathlib
+re-verification of the rational certificate arithmetic together with
+generic fixed-point lemmas.  The release explicitly imports, rather than
+reclaims, your MPFR theorem; the standard Helmholtz/Bessel analysis is
+proved in the article, not in Lean.  A fresh pinned-toolchain build is
+retained as a pre-publication gate before any Lean source is described as
+kernel-checked.
+
+\textbf{Attached material.}
+The focused research article, the verification supplement, this note, the exact certificate, the Lean project, and the one-command reproduction archive.
+
+\end{document}

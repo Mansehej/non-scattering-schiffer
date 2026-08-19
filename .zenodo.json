@@ -1,0 +1,25 @@
+{
+  "title": "Exact non-scattering homogeneous dielectrics from Schiffer counterexamples",
+  "upload_type": "publication",
+  "publication_type": "preprint",
+  "description": "A proof of bounded, simply connected, noncircular homogeneous isotropic dielectric inclusions that are exactly non-scattering for an explicit normalized Herglotz incident wave in the two-dimensional scalar Maxwell reduction. The release separates the focused research article from a verification supplement containing exact-rational verifiers that rederive the perturbation constants from the certified ball bounds, a replayed and machine-compared pin of the upstream Colbrook--Stepaniants certificate, a narrow Lean 4 re-verification of the certificate arithmetic, reproducibility logs, and arXiv-ready source.",
+  "creators": [
+    {
+      "name": "Singh, Mansehej"
+    }
+  ],
+  "version": "1.2.0",
+  "access_right": "open",
+  "license": "cc-by-4.0",
+  "keywords": [
+    "non-scattering inclusion",
+    "Schiffer conjecture",
+    "Pompeiu problem",
+    "Herglotz wave",
+    "transmission eigenvalue",
+    "computer-assisted proof",
+    "Lean 4"
+  ],
+  "language": "eng",
+  "notes": "The main article presents the mathematical result and proof. The verification supplement records the pinned Colbrook--Stepaniants MPFR theorem dependency, exact arithmetic, the Lean scope boundary, and replay details."
+}

@@ -1,0 +1,38 @@
+--- Python ---
+POSITIVE-FREQUENCY EXTENSION: VERIFIED
+exact p0 = 4498956314423765/140737488355328
+alpha coarse bound = 147456/125 < 1180
+psi bound = 365/341 < 11/10
+conformal square bound = 133225/116281 < 5/4
+datum deviation coefficient = 4821/7688 < 63/100
+value coefficient derivation = 7623/4 < 1906
+derivative coefficient derivation = 236343019/110822520 < 3
+base radii = -94679749999997/250000000000000000000
+base Lipschitz = 155311000000009/250000000000000
+tau endpoint = 1/10000000000000
+endpoint radii = -38452749999997/250000000000000000000 < 0
+endpoint Lipschitz = 155311000088509/250000000000000 < 1
+fixed-frequency normalization: k = 1
+--- Python -O ---
+POSITIVE-FREQUENCY EXTENSION: VERIFIED
+exact p0 = 4498956314423765/140737488355328
+alpha coarse bound = 147456/125 < 1180
+psi bound = 365/341 < 11/10
+conformal square bound = 133225/116281 < 5/4
+datum deviation coefficient = 4821/7688 < 63/100
+value coefficient derivation = 7623/4 < 1906
+derivative coefficient derivation = 236343019/110822520 < 3
+base radii = -94679749999997/250000000000000000000
+base Lipschitz = 155311000000009/250000000000000
+tau endpoint = 1/10000000000000
+endpoint radii = -38452749999997/250000000000000000000 < 0
+endpoint Lipschitz = 155311000088509/250000000000000 < 1
+fixed-frequency normalization: k = 1
+--- Node ---
+POSITIVE-FREQUENCY EXTENSION: VERIFIED (Node/BigInt)
+psi bound = 365/341 < 11/10
+conformal square bound = 133225/116281 < 5/4
+value coefficient derivation = 7623/4 < 1906
+derivative coefficient derivation = 236343019/110822520 < 3
+endpoint radii = -38452749999997/250000000000000000000 < 0
+endpoint Lipschitz = 155311000088509/250000000000000 < 1

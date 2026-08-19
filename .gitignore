@@ -1,0 +1,12 @@
+.DS_Store
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.fls
+paper/*.fdb_latexmk
+paper/*.blg
+paper/*.toc
+paper/*.synctex.gz
+formalization/.lake/
+verification/upstream_work/
+verification/rendered/

@@ -1,0 +1,20 @@
+note: "version 2" Tectonic command-line interface activated
+note: Running TeX ...
+note: downloading listings.sty
+note: downloading lstmisc.sty
+note: downloading listings.cfg
+note: downloading ec-lmbxi10.tfm
+note: downloading t1lmtt.fd
+note: downloading ec-lmtt10.tfm
+note: downloading ec-lmtt8.tfm
+warning: supplement.tex:417: Overfull \hbox (5.00038pt too wide) in paragraph at lines 413--417
+warning: references.tex:44: Underfull \hbox (badness 6300) in paragraph at lines 41--44
+note: Rerunning TeX because "supplement.aux" changed ...
+warning: supplement.tex:417: Overfull \hbox (5.00038pt too wide) in paragraph at lines 413--417
+warning: references.tex:44: Underfull \hbox (badness 6300) in paragraph at lines 41--44
+warning: warnings were issued by the TeX engine; use --print and/or --keep-logs for details.
+note: Running xdvipdfmx ...
+note: downloading lmbxi10.pfb
+note: downloading lmtt10.pfb
+note: Writing `supplement.pdf` (92.4443359375 KiB)
+note: Skipped writing 2 intermediate files (use --keep-intermediates to keep them)

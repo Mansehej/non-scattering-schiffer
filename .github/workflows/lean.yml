@@ -1,0 +1,24 @@
+name: Lean formalization
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scan project sources for proof holes and axioms
+        working-directory: formalization
+        run: python3 scripts/check_no_holes.py
+      - name: Build with the pinned toolchain
+        uses: leanprover/lean-action@v1
+        with:
+          lake-package-directory: formalization
+          build: true
+          test: false
+          lint: false
+      - name: Record toolchain
+        run: echo "lake build completed for $(cat formalization/lean-toolchain)"

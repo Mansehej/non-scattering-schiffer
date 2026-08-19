@@ -1,0 +1,7 @@
+POSITIVE-FREQUENCY EXTENSION: VERIFIED (Node/BigInt)
+psi bound = 365/341 < 11/10
+conformal square bound = 133225/116281 < 5/4
+value coefficient derivation = 7623/4 < 1906
+derivative coefficient derivation = 236343019/110822520 < 3
+endpoint radii = -38452749999997/250000000000000000000 < 0
+endpoint Lipschitz = 155311000088509/250000000000000 < 1

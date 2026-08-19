@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite the preprint and archived release."
+title: "Exact non-scattering homogeneous dielectrics from Schiffer counterexamples"
+type: article
+authors:
+  - family-names: Singh
+    given-names: Mansehej
+version: 1.2.0
+date-released: 2026-08-19
+abstract: >-
+  A proof of noncircular homogeneous isotropic dielectric inclusions that
+  are exactly non-scattering for an explicit normalized Herglotz wave in
+  the two-dimensional scalar Maxwell reduction.
+keywords:
+  - non-scattering inclusion
+  - Schiffer conjecture
+  - Herglotz wave
+  - computer-assisted proof
+  - Lean
+license: CC-BY-4.0

@@ -1,0 +1,16 @@
+zenodo archive md5 verified: 238b0ed99c0fe681ce72bd8580d329e0
+UPSTREAM CROSS-CHECK: PASS
+pinned hashes verified: center, inverse, certificate, source_manifest
+upstream (Y,Z,C2,C3,radius,univalence,p1) match the snapshot
+derived ball bounds: 31 < p0 <= 31.967007293 < 32
+derived weighted shape norm <= 54.537609 < 55
+Y_upper=159/1000000000000 Z_upper=621/1000
+C2_upper=122 C3_upper=3/250
+radii_polynomial_upper=-94679749999997/250000000000000000000 derivative_upper=-94688999999991/250000000000000
+univalence_margin_lower=10492513629399594876844907369622556892815110177103217/29910429359205989415426782779749486663519575161700352 p1_abs_lower=2022152937652341974322634903319579677/166207600626990300759645487104000000
+AUTHENTICATED AUDIT AGGREGATION AND FINAL INEQUALITIES VERIFIED: PROVED
+SOURCE-TO-AUDIT REGENERATION NOT PERFORMED BY THIS COMMAND
+UPSTREAM AUTHENTICATED-LEAF CHECK: PASS
+Full source-to-audit reproduction, which is substantially more expensive, is available as:
+  cd '<release-root>/verification/upstream_work/MColbrook-Pompeiu_Schiffer-f2c2859/pompeiu_validation_certificate' && THREADS=80 ./reproduce.sh
+run date: 19 August 2026, clean fetch from Zenodo record 21765287

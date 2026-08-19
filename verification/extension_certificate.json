@@ -1,0 +1,36 @@
+{
+  "schema": "non-scattering-positive-frequency-extension-v3",
+  "status": "PROVED_FROM_PINNED_UPSTREAM_THEOREM",
+  "normalization": {
+    "physical_exterior_wavenumber": "1",
+    "herglotz_density": "1/sqrt(2*pi)",
+    "incident_field": "sqrt(2*pi)*J0(|x|)"
+  },
+  "parameter_interval": {
+    "tau_lower_open": "0",
+    "tau_upper": "0.0000000000001"
+  },
+  "upstream_snapshot": "upstream_snapshot.json",
+  "extension_majorants": {
+    "preconditioner_norm_upper": "1180",
+    "value_perturbation_coefficient": "1906",
+    "derivative_perturbation_coefficient": "3",
+    "conformal_square_norm_upper": "1.25"
+  },
+  "expected_exact_values": {
+    "base_radii": "-0.000000378718999999988",
+    "base_lipschitz": "0.621244000000036",
+    "endpoint_radii": "-0.000000153810999999988",
+    "endpoint_lipschitz": "0.621244000354036"
+  },
+  "fixed_frequency_family": {
+    "domain": "Omega_tau = sqrt(tau) * phi_{p_tau}(unit_disc)",
+    "contrast": "q_tau = p_tau,0^2/tau",
+    "uniform_positive_contrast": true,
+    "uniform_nonunit_contrast": true
+  },
+  "lean": {
+    "project": "../formalization",
+    "entrypoint": "NonScattering/MainTheorem.lean"
+  }
+}

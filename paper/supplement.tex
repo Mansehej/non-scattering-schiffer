@@ -1,0 +1,552 @@
+\documentclass[11pt]{amsart}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\usepackage{listings}
+\usepackage{geometry}
+\geometry{margin=1.08in}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!45!black,
+  citecolor=green!35!black,
+  urlcolor=blue!55!black,
+  pdfauthor={Mansehej Singh},
+  pdftitle={Verification supplement: Exact non-scattering homogeneous dielectrics from Schiffer counterexamples}
+}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\D}{\mathbb D}
+\newcommand{\R}{\mathbb R}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\abs}[1]{\left\lvert #1\right\rvert}
+\newcommand{\Rea}{\operatorname{Re}}
+
+\title[Verification supplement]
+{Verification supplement for\\
+\emph{Exact non-scattering homogeneous dielectrics from Schiffer counterexamples}}
+\author{Mansehej Singh}
+\date{19 August 2026}
+
+\begin{document}
+
+\begin{abstract}
+This supplement records the computer-assisted and formal-verification layer
+supporting the accompanying paper.  It specifies the imported
+Colbrook--Stepaniants theorem, derives the conservative preconditioner bound
+$\norm{\mathcal A}<1180$, gives the detailed Bessel perturbation estimates,
+normalizes the endpoint inequalities by exact rational arithmetic, and
+documents the independent executable verifiers and the narrow Lean 4
+re-verification of the certificate arithmetic.
+The supplement is deliberately separated from the research article: the
+article presents the mathematical discovery and proof, while this document
+provides the audit trail needed to replay and challenge the certificate.
+\end{abstract}
+
+\maketitle
+
+\section{Logical structure and scope}
+
+The proof has three layers.
+\begin{enumerate}[label=\textup{(\roman*)},leftmargin=2.2em]
+  \item The theorem of Colbrook and Stepaniants
+  \cite{ColbrookStepaniants2026} supplies an exact noncircular Schiffer zero
+  in a weighted coefficient algebra, together with an invertible
+  preconditioner, contraction bounds, infinite-tail control, and uniform
+  geometry estimates.
+  \item The new analytic layer defines the Bessel-deformed equation
+  $F_\tau=0$, derives the value and derivative perturbation estimates, and
+  proves that the same contraction ball remains valid for
+  $0\le\tau\le10^{-13}$.
+  \item The physical layer pushes the exact fixed point through the conformal
+  map and a dilation, yielding a constant-index transmission solution whose
+  exterior scattered field is identically zero.
+\end{enumerate}
+
+The large upstream interval computation is not reimplemented in this
+supplement.  Instead, the released upstream certificate is treated as a
+pinned theorem dependency and replayed from its frozen source and inverse.
+The new scalar inequalities are checked independently by exact-rational
+Python, Node/BigInt arithmetic, and Lean normalization.
+
+\section{Pinned upstream theorem}
+
+The upstream fixed-disc equation is
+\begin{equation}\label{eq:F0}
+  F_0(\gamma,p)=\gamma+\abs p^2(1+K\gamma)=0,
+\end{equation}
+with ten-fold shape series
+\[
+  p(z)=\sum_{j\ge0}p_jz^{10j},
+  \qquad
+  \phi_p(z)=z+\sum_{j\ge1}
+  \frac{p_j}{p_0(10j+1)}z^{10j+1}.
+\]
+The certificate parameters are
+\[
+  (L,S,R,J,\rho)=(60,40,30,30,1.05),
+  \qquad N=2471,
+\]
+and the validated radius is
+\[
+  r=10^{-6}.
+\]
+The authenticated coarse majorants are
+\begin{equation}\label{eq:coarse}
+  Y\le1.59\times10^{-10},
+  \qquad Z\le0.621,
+  \qquad C_2\le122,
+  \qquad C_3\le0.012.
+\end{equation}
+They imply
+\begin{align}
+  R_0&:=Y+Zr+C_2r^2+C_3r^3-r
+  \le-0.000000378718999999988,
+  \label{eq:R0}\\
+  L_0&:=Z+2C_2r+3C_3r^2
+  \le0.621244000000036.
+  \label{eq:L0}
+\end{align}
+The same theorem proves on the whole validated ball
+\begin{equation}\label{eq:geometry}
+  \norm p_\rho<55,
+  \qquad 31<p_0<32,
+  \qquad
+  \sum_{j\ge1}\abs{p_j/p_0}<0.65,
+\end{equation}
+and keeps the first nonconstant shape coefficient away from zero.  Hence
+$\Rea\phi_p'>0.35$ on the closed unit disc, so $\phi_p$ is univalent on a
+complex collar and its image is a noncircular analytic Jordan domain.
+
+The release pins the following upstream objects:
+\begin{itemize}[leftmargin=2em]
+  \item repository and commit;
+  \item exact hexadecimal center;
+  \item frozen binary64 approximate inverse;
+  \item source manifest and certificate schema;
+  \item authenticated 192-bit and 256-bit MPFR audit hashes.
+\end{itemize}
+The concrete values are stored in
+\path{verification/upstream.lock} and
+\path{verification/upstream_snapshot.json}.
+
+\section{Hardening the preconditioner bound}
+
+Let
+\[
+  b=\bar p_0,
+  \qquad
+  \alpha=\max(1,\norm{\mathcal A}).
+\]
+The upstream nonlinear estimate defines
+\begin{equation}\label{eq:C3}
+  C_3=\frac{\alpha}{96b^2}.
+\end{equation}
+The exact first shape token is
+\[
+  b=\texttt{0x1.ff78dc9f663aap+4}
+  =\frac{4498956314423765}{140737488355328}<32.
+\]
+Combining this exact inequality with the simple authenticated majorant
+$C_3\le0.012$ yields
+\begin{align}
+  \alpha
+  &=96b^2C_3\notag\\
+  &<96\cdot32^2\cdot0.012
+   =1179.648<1180.
+  \label{eq:alpha}
+\end{align}
+Thus the extension proof needs neither the full inverse norm nor a long
+decimal reconstructed from the explanatory paper.  The executable
+certificate uses the integer upper bound
+\begin{equation}\label{eq:alpha1180}
+  \boxed{\norm{\mathcal A}<1180.}
+\end{equation}
+
+\section{Detailed Bessel perturbation estimates}
+
+For $\tau\ge0$, set
+\begin{equation}\label{eq:H}
+  H_{\tau,p}
+  =\sum_{n=0}^{\infty}
+  \frac{(-1)^n}{(n!)^2}
+  \left(\frac{\tau\abs{\phi_p}^2}{4}\right)^n
+\end{equation}
+and
+\begin{equation}\label{eq:Ftau}
+  F_\tau(\gamma,p)
+  =\gamma+\abs p^2K\gamma
+  +\abs p^2\left(1-\frac\tau{p_0^2}\right)H_{\tau,p}.
+\end{equation}
+Write $\delta F_\tau=F_\tau-F_0$.
+
+\subsection{Bound on the conformal radius factor}
+
+Write $\phi_p(z)=z\psi_p(z)$.  From the coefficient formula and
+\eqref{eq:geometry},
+\begin{align}
+  \norm{\psi_p}
+  &\le1+\sum_{j\ge1}
+  \frac{\abs{p_j}}{p_0(10j+1)}\rho^j\notag\\
+  &\le1+\frac{\norm p_\rho-p_0}{11p_0}
+  <1+\frac{55-31}{11\cdot31}
+  <\frac{11}{10}.
+  \label{eq:psi}
+\end{align}
+The upstream algebra norm is a weighted $\ell^1$ sum over a basis indexed
+by an angular block index $\ell$ and a radial index $s$, with weight
+$c_\ell\rho^\ell$ depending only on $\ell$, and multiplication by the
+radial factor $\abs z^2=r^2$ acts as the pure radial shift
+$(\ell,s)\mapsto(\ell,s+1)$
+\cite[Validation Specification, \S\S2 and~4]{ColbrookStepaniantsCert2026}.
+Multiplication by $\abs z^2$ is therefore nonexpansive, and
+\begin{equation}\label{eq:R}
+  \norm{\abs{\phi_p}^2}
+  =\norm{\abs z^2\abs{\psi_p}^2}
+  \le\norm{\psi_p}^2
+  <\frac{121}{100}<\frac54.
+\end{equation}
+This radial-shift property is the single algebra fact imported beyond
+submultiplicativity; it is restated as a lemma in the main article and is
+item one of the recommended independent audits.
+
+\subsection{Value perturbation}
+
+Put
+\[
+  u=\frac\tau4\norm{\abs{\phi_p}^2}.
+\]
+For $0\le\tau\le10^{-13}$, $u<1/2$.  Since
+$1/(n!)^2\le1$, the full Bessel series satisfies
+\begin{equation}\label{eq:Hnorm}
+  \norm{H_{\tau,p}}
+  \le\sum_{n\ge0}u^n
+  =\frac1{1-u}\le2.
+\end{equation}
+Similarly,
+\begin{equation}\label{eq:Hminus1}
+  \norm{H_{\tau,p}-1}
+  \le\frac{u}{1-u}
+  \le2u
+  \le\frac58\tau.
+\end{equation}
+Hence
+\begin{align}
+ \norm{\left(1-\frac\tau{p_0^2}\right)H_{\tau,p}-1}
+ &\le\norm{H_{\tau,p}-1}
+ +\frac\tau{p_0^2}\norm{H_{\tau,p}}\notag\\
+ &\le\left(\frac58+\frac2{31^2}\right)\tau
+ <\frac{63}{100}\tau.
+ \label{eq:B}
+\end{align}
+Using $\norm p^2<55^2=3025$,
+\begin{equation}\label{eq:value}
+  \norm{\delta F_\tau}
+  <3025\cdot\frac{63}{100}\tau
+  =1905.75\tau
+  <1906\tau.
+\end{equation}
+
+\subsection{Derivative perturbation}
+
+Let $\xi$ be a shape variation with full $X_\rho$ norm at most one.  The
+upstream product norm weights the shape block by $2\bar p_0\rho^j$
+\cite[Validation Specification, Eq.~(13)]{ColbrookStepaniantsCert2026},
+which gives
+\begin{equation}\label{eq:xi}
+  \norm\xi\le\frac1{2b}<\frac1{62},
+  \qquad
+  \abs{\xi_0}<\frac1{62}.
+\end{equation}
+Differentiating $\psi_p$ gives
+\begin{align}
+  \norm{D\psi_p[\xi]}
+  &\le\frac1{11}
+  \left(\frac{\norm\xi}{p_0}
+  +\frac{\norm p\abs{\xi_0}}{p_0^2}\right)\notag\\
+  &<\frac1{11}
+  \left(\frac1{62\cdot31}
+  +\frac{55}{62\cdot31^2}\right)
+  <\frac1{7000}.
+  \label{eq:Dpsi}
+\end{align}
+Thus
+\begin{equation}\label{eq:DR}
+  \norm{D\abs{\phi_p}^2[\xi]}
+  \le2\norm{\psi_p}\norm{D\psi_p[\xi]}
+  <\frac1{3000},
+\end{equation}
+using the radial-shift property once more for the factor $\abs z^2$.
+Termwise differentiation of \eqref{eq:H} and
+$\sum_{n\ge1}nu^{n-1}=(1-u)^{-2}\le4$ give
+\begin{equation}\label{eq:DH}
+  \norm{DH_{\tau,p}[\xi]}
+  \le\frac\tau4\norm{D\abs{\phi_p}^2[\xi]}
+  \sum_{n\ge1}nu^{n-1}
+  <\frac\tau{3000}.
+\end{equation}
+
+Let
+\[
+  B_{\tau,p}
+  =\left(1-\frac\tau{p_0^2}\right)H_{\tau,p}-1.
+\]
+Then
+\begin{align*}
+  D\delta F_\tau[\xi]
+  &=2\Rea(\bar p\xi)B_{\tau,p}\\
+  &\quad+\abs p^2\left[
+    \left(1-\frac\tau{p_0^2}\right)DH_{\tau,p}[\xi]
+    +\frac{2\tau\xi_0}{p_0^3}H_{\tau,p}
+  \right].
+\end{align*}
+Applying \eqref{eq:B}, \eqref{eq:Hnorm}, \eqref{eq:xi}, and
+\eqref{eq:DH},
+\begin{align}
+  \norm{D\delta F_\tau}
+  &<\left[
+  \frac{110}{62}\frac{63}{100}
+  +\frac{3025}{3000}
+  +\frac{12100}{62\cdot31^3}
+  \right]\tau\notag\\
+  &<3\tau.
+  \label{eq:derivative}
+\end{align}
+The last strict inequality is checked exactly in all three arithmetic
+implementations.
+
+\section{Exact closure of the contraction ball}
+
+Let
+\[
+  T_\tau=I-\mathcal AF_\tau.
+\]
+The value perturbation changes the invariant-ball radii polynomial by at
+most
+\[
+  1180\cdot1906\,\tau,
+\]
+and the derivative perturbation changes the contraction constant by at most
+\[
+  1180\cdot3\,\tau.
+\]
+Thus
+\begin{align}
+  R_\tau&\le R_0+1180\cdot1906\,\tau,
+  \label{eq:Rtau}\\
+  L_\tau&\le L_0+1180\cdot3\,\tau.
+  \label{eq:Ltau}
+\end{align}
+At $\tau_*=10^{-13}$, exact rational arithmetic yields
+\begin{align}
+  R_{\tau_*}
+  &\le-\frac{153810999999988}{10^{21}}
+  =-1.53810999999988\times10^{-7}<0,
+  \label{eq:Rend}\\
+  L_{\tau_*}
+  &\le\frac{621244000354036}{10^{15}}
+  =0.621244000354036<1.
+  \label{eq:Lend}
+\end{align}
+Because the right-hand sides are monotone in $\tau$, the same conclusions
+hold for the whole interval $0\le\tau\le10^{-13}$.
+
+For comparison, the explicit example $\tau=10^{-14}$ satisfies
+\begin{align*}
+  R_\tau
+  &\le-3.56228199999988\times10^{-7}<0,\\
+  L_\tau
+  &\le0.621244000035436<1.
+\end{align*}
+
+\section{Executable certificate}
+
+The authoritative new input is
+\path{verification/extension_certificate.json}.  It contains the
+rational constants, the parameter interval, the exact hexadecimal center
+coefficient used in \eqref{eq:alpha}, and hashes of the pinned upstream
+snapshot.  The primary checker
+\path{verification/verify_extension.py}:
+\begin{enumerate}[leftmargin=2.2em]
+  \item parses all decimal values as exact rational numbers;
+  \item cross-checks the snapshot hashes, repository, and commit against
+  the pinned \path{upstream.lock} (file-level hash verification is
+  performed by the upstream replay script below);
+  \item parses the hexadecimal binary64 center token exactly and derives
+  $b<32$, the ball bound $b+r/(2\cdot31)<32$, and $\alpha<1180$ rather
+  than trusting them as loose text constants;
+  \item rederives the perturbation-constant chain from the certified ball
+  bounds $\norm p_\rho<55$ and $p_0>31$: the bounds $11/10$ for
+  $\psi_p$, $5/4$ for $\abs{\phi_p}^2$, $63/100$ for the datum
+  deviation, $1/7000$ and $1/3000$ for the derivatives, and finally
+  $55^2\cdot63/100<1906$ and the three-term derivative sum below $3$;
+  \item verifies the Bessel-series condition at the uniform endpoint
+  $\tau=10^{-13}$;
+  \item recomputes the radii polynomial, the contraction constant, and
+  both endpoint inequalities, comparing each against the stored exact
+  decimal expansions;
+  \item fails by explicit exceptions and nonzero exit status.
+\end{enumerate}
+Proof conditions do not use Python's removable \texttt{assert} statement, so
+normal and optimized execution are byte-identical.
+
+A separately implemented Node program,
+\path{verification/verify_extension.mjs}, uses BigInt rational arithmetic,
+reads the same authoritative certificate, and replays the complete check
+set above, including the derivation chain and the lock cross-check.
+
+\subsection{Upstream replay}
+
+\path{verification/fetch_and_check_upstream.sh} downloads the archived
+upstream release from Zenodo (record 21765287), verifies the archive
+digest recorded in \path{upstream.lock}, and then runs
+\path{verification/cross_check_upstream.py}, which
+\begin{enumerate}[leftmargin=2.2em]
+  \item verifies the pinned SHA-256 hashes of the upstream center, inverse,
+  certificate, and source manifest;
+  \item compares the upstream certificate values
+  $(Y,Z,C_2,C_3,r,\rho,L,S,R,J)$, the univalence sum, and the first-shape-%
+  coefficient bound against \path{upstream_snapshot.json};
+  \item rederives the ball bounds $31<p_0<32$ and $\norm p_\rho<55$ from
+  the exact hexadecimal center coefficients plus the validated radius.
+\end{enumerate}
+Finally it replays the upstream authenticated checker
+\path{verify_certificate.py} itself.  The successful run of this entire
+pipeline from a clean fetch is recorded in
+\path{verification/upstream_check.log}; the upstream checker's exact
+radii-polynomial output reproduces \eqref{eq:R0} digit for digit.
+
+\subsection{Adversarial tests}
+
+The regression suite deliberately corrupts, one at a time: the
+preconditioner bound; the value-perturbation constant; the conformal-square
+majorant $5/4$; the endpoint $\tau$; a stored exact decimal expansion; the
+upstream $Y$, $Z$, and $C_3$ majorants; the certified shape-norm ball bound
+$55$; the exact hexadecimal center token; a pinned hash (forcing a
+snapshot/lock disagreement); and the presence of the snapshot and lock
+files themselves.  Every corruption must be rejected by the Python checker
+\emph{and}, when Node is available, by the independent BigInt checker.
+The suite also requires byte-equal output under \texttt{python3} and
+\texttt{python3 -O}.
+
+\section{Lean re-verification of the certificate arithmetic}
+
+The release contains a small Lean 4 project pinned to Lean/mathlib
+v4.32.1.  Its scope is deliberately narrow and is stated here exactly.
+
+\begin{center}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.28\linewidth}>{\raggedright\arraybackslash}p{0.64\linewidth}@{}}
+\toprule
+Module & Source content \\
+\midrule
+\texttt{Certificate} & Exact rational evaluation of
+\eqref{eq:R0}--\eqref{eq:Lend}, the hardened
+$C_3,b\Rightarrow\alpha<1180$ implication, uniform closure over the whole
+parameter interval, and the two scalar majorant inequalities
+$55^2\cdot63/100<1906$ and the three-term derivative sum below $3$.\\
+\texttt{FixedPoint} & Banach fixed-point existence and uniqueness on a
+complete metric space, and the stability estimate for fixed points of two
+nearby contractions, stated generically.\\
+\texttt{LinearRegularity} & If $A$ and $A\circ B$ are bijective, so is
+$B$.\\
+\texttt{Scaling} & The scalar contrast computation $q=p_0^2/\tau$, its
+positivity, and $q>1$ on the certified interval.\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+What the Lean development is \emph{not}: it does not formalize the
+operator-level perturbation estimates behind the constants $1906$ and $3$,
+the weighted coefficient algebra, the upstream MPFR certificate, or any
+planar scattering analysis (the Bessel--Herglotz identity, conformal
+covariance, trace transformation, exterior uniqueness).  The generic
+fixed-point lemmas are stated in the form the paper uses but are not
+instantiated on the concrete coefficient spaces.  The accurate public
+description is therefore:
+\begin{quote}
+A Lean re-verification of the exact rational certificate arithmetic,
+together with generic fixed-point and invertibility lemmas in the form used
+by the paper.  It is a third independent checker of the scalar arithmetic,
+not a formalization of the non-scattering theorem.
+\end{quote}
+
+A static source scan (\path{formalization/scripts/check_no_holes.py})
+rejects \texttt{sorry}, \texttt{admit}, \texttt{axiom},
+\texttt{native\_decide}, \texttt{opaque}, \texttt{unsafe},
+\texttt{partial}, and related escape hatches in the project sources, and
+\path{NonScattering/MainTheorem.lean} runs \texttt{\#print axioms} on the
+public theorems.  The packaging environment did not include the Lean
+toolchain: a fresh pinned-toolchain kernel build, with its log and axiom
+report archived, remains a pre-publication gate, and until then no claim
+stronger than ``source scan'' is made.
+
+\section{Reproduction}
+
+From the release root, the primary checks are
+\begin{lstlisting}[basicstyle=\ttfamily\small,frame=single]
+make verify
+make lean
+make paper
+\end{lstlisting}
+The verification-only path is
+\begin{lstlisting}[basicstyle=\ttfamily\small,frame=single]
+cd verification
+./reproduce.sh
+\end{lstlisting}
+and the Lean path is
+\begin{lstlisting}[basicstyle=\ttfamily\small,frame=single]
+cd formalization
+python3 scripts/check_no_holes.py
+lake build
+\end{lstlisting}
+The reproducer authenticates dependencies before executing proof arithmetic.
+The root manifest covers every regular release file except generated archives
+and the manifest itself.
+
+\section{Dependency ledger}
+
+\begin{center}
+\small
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.30\linewidth}>{\raggedright\arraybackslash}p{0.20\linewidth}>{\raggedright\arraybackslash}p{0.40\linewidth}@{}}
+\toprule
+Claim & Status & Evidence \\
+\midrule
+Exact Schiffer zero and infinite tails & Imported theorem & Pinned and
+replayed Colbrook--Stepaniants MPFR certificate.\\
+Univalence, analytic boundary, non-disc & Imported theorem & Uniform geometry
+bounds on the same certified ball.\\
+Bessel-deformed equation & Article proof & Direct Laplacian and conformal
+calculation.\\
+Constants $1906$ and $3$ & Article and supplement proof & Derivation chain
+rechecked in exact rationals by Python and Node; terminal scalar
+inequalities also in Lean.\\
+Uniform fixed point & Article proof & Banach contraction theorem plus the
+endpoint certificate; scalar closure rechecked in Python, Node, and
+Lean.\\
+Scaling and $q\ne1$ & Article proof & Exact dilation and positivity
+calculation; scalar part rechecked in Lean.\\
+Herglotz and conformal trace identities & Article proof & Standard planar
+analysis; outside the Lean scope.\\
+Zero scattered field & Article proof & Exterior total field is the incident
+field identically; uniqueness of the direct problem cited in the
+article.\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\input{references.tex}
+
+\end{document}

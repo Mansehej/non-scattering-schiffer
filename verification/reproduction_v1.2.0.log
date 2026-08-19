@@ -1,0 +1,5 @@
+MANIFEST: VERIFIED (72 files)
+ADVERSARIAL VERIFIER TESTS: PASS (python+node, 13 corruptions rejected)
+Lean project-source scan (6 files): no proof holes, axioms, or escape hatches
+MANIFEST: VERIFIED (72 files)
+REPRODUCTION: PASS

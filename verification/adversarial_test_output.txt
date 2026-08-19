@@ -1,0 +1,1 @@
+ADVERSARIAL VERIFIER TESTS: PASS (python+node, 13 corruptions rejected)

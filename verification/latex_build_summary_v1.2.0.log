@@ -1,0 +1,12 @@
+note: "version 2" Tectonic command-line interface activated
+note: Running TeX ...
+note: downloading article.cls
+note: downloading size10.clo
+note: downloading ec-lmr12.tfm
+note: downloading ec-lmbx12.tfm
+note: Rerunning TeX because "two_page_summary.aux" changed ...
+note: Running xdvipdfmx ...
+note: downloading lmbx12.pfb
+note: downloading lmr12.pfb
+note: Writing `two_page_summary.pdf` (39.662109375 KiB)
+note: Skipped writing 2 intermediate files (use --keep-intermediates to keep them)

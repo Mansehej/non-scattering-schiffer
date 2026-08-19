@@ -1,0 +1,19 @@
+Title:           Verification supplement: Exact non-scattering homogeneous dielectrics from Schiffer counterexamples
+Author:          Mansehej Singh
+Creator:         LaTeX with hyperref
+Producer:        xdvipdfmx (0.1)
+CreationDate:    Wed Aug 19 12:31:37 2026 BST
+Custom Metadata: no
+Metadata Stream: no
+Tagged:          no
+UserProperties:  no
+Suspects:        no
+Form:            none
+JavaScript:      no
+Pages:           8
+Encrypted:       no
+Page size:       612 x 792 pts (letter)
+Page rot:        0
+File size:       94663 bytes
+Optimized:       no
+PDF version:     1.5

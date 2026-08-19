@@ -1,0 +1,33 @@
+{
+  "schema": "non-scattering-upstream-snapshot-v2",
+  "paper": {
+    "arxiv": "2608.01579",
+    "repository": "MColbrook/Pompeiu_Schiffer",
+    "commit": "36778d647a47bf0ac7f769084b115b7055ecc51c",
+    "zenodo_record": "21765287",
+    "zenodo_zip_md5": "238b0ed99c0fe681ce72bd8580d329e0"
+  },
+  "authenticated_files": {
+    "center_sha256": "a30353f226a96c88a3d7e8b54b9d29d000c884fadb6cc52b47f176a874d73d29",
+    "inverse_sha256": "aa2de444bcae9e0c9bdf8afc8f5290ef5c363d84caf1c1de2df31fe569f9ea1c",
+    "certificate_sha256": "8aae465d483c4f60a92818616dc224f7aa69aa3adfc65dbc03ba944d6ccc2315",
+    "source_manifest_sha256": "2057deab6a10db09c8df250205f6a52807b5cde5ffba899a9bdbac7be3749ed5"
+  },
+  "majorants": {
+    "Y": "0.000000000159",
+    "Z": "0.621",
+    "C2": "122",
+    "C3": "0.012",
+    "radius": "0.000001"
+  },
+  "center": {
+    "p0_hex_binary64": "0x1.ff78dc9f663aap+4",
+    "p0_lower": "31",
+    "p0_upper": "32",
+    "weighted_p_upper": "55",
+    "first_shape_coefficient_abs_lower": "12"
+  },
+  "geometry": {
+    "univalence_sum_upper": "0.65"
+  }
+}

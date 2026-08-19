@@ -1,0 +1,752 @@
+\documentclass[11pt]{amsart}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\usepackage{geometry}
+\geometry{margin=1.08in}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!45!black,
+  citecolor=green!35!black,
+  urlcolor=blue!55!black,
+  pdfauthor={Mansehej Singh},
+  pdftitle={Exact non-scattering homogeneous dielectrics from Schiffer counterexamples}
+}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{definition}[theorem]{Definition}
+
+\newcommand{\D}{\mathbb D}
+\newcommand{\R}{\mathbb R}
+\newcommand{\C}{\mathbb C}
+\newcommand{\Sone}{\mathbb S^1}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\abs}[1]{\left\lvert #1\right\rvert}
+\newcommand{\dd}{\,\mathrm d}
+\newcommand{\Rea}{\operatorname{Re}}
+
+\title[Exact non-scattering dielectrics from Schiffer counterexamples]
+{Exact non-scattering homogeneous dielectrics from Schiffer counterexamples}
+
+\author{Mansehej Singh}
+\address{Bristol, United Kingdom}
+\date{19 August 2026}
+
+\subjclass[2020]{Primary 35P25, 35R30; Secondary 65G20, 78A45, 30C35}
+\keywords{non-scattering inclusion, Schiffer conjecture, Pompeiu problem,
+transmission eigenvalue, Herglotz wave, computer-assisted proof}
+
+\begin{document}
+
+\begin{abstract}
+We prove the existence of bounded, simply connected, noncircular homogeneous
+isotropic dielectric inclusions that are exactly non-scattering for a
+nonzero physical incident field in the two-dimensional scalar Maxwell
+reduction.  The incident field is the explicit normalized Herglotz wave
+\[
+  v(x)=\sqrt{2\pi}\,J_0(\abs{x}),
+  \qquad h(d)=\frac1{\sqrt{2\pi}},
+\]
+at exterior wavenumber one.  The construction starts from the
+computer-assisted noncircular Schiffer counterexample of Colbrook and
+Stepaniants.  We replace its constant boundary datum by a small-frequency
+Bessel wave, prove that the regular Schiffer zero persists, and certify the
+continuation uniformly for every $0<\tau\le10^{-13}$.  After dilation, the
+resulting domain and constant relative permittivity are
+\[
+  \Omega_\tau=\sqrt\tau\,\phi_{p_\tau}(\D),
+  \qquad q_\tau=\frac{p_{\tau,0}^2}{\tau}.
+\]
+An interior Helmholtz field matches both Cauchy traces of $v$ exactly, so the
+radiating scattered field and its far-field pattern vanish identically.  As
+a consequence, every prescribed contrast $Q\ge1.03\times10^{16}$ occurs for
+some noncircular member of the family.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+Let $D\subset\R^2$ be a bounded dielectric inclusion with constant relative
+permittivity $q>0$ and constant magnetic permeability.  In the
+out-of-plane-electric scalar reduction of time-harmonic Maxwell equations,
+an incident field $v$ at exterior wavenumber $k>0$ is physical when it is a
+nonzero entire solution of
+\begin{equation}\label{eq:incident}
+  (\Delta+k^2)v=0\qquad\text{in }\R^2.
+\end{equation}
+Exact non-scattering requires an interior field $U$ satisfying
+\begin{equation}\label{eq:interior}
+  (\Delta+k^2q)U=0\qquad\text{in }D
+\end{equation}
+and the two trace identities
+\begin{equation}\label{eq:traces}
+  U=v,
+  \qquad
+  \partial_\nu U=\partial_\nu v
+  \qquad\text{on }\partial D.
+\end{equation}
+Then the exterior total field may equal $v$ itself, so the scattered field is
+the zero radiating solution.  This is stronger than the mere existence of a
+transmission eigenvalue: the incident component must extend to an entire
+physical Helmholtz solution, and in the present theorem it is an
+$L^2$-Herglotz wave.  The distinction is emphasized in
+\cite{HovsepyanVogelius2025,CakoniVogelius2026}.
+
+Two lines of prior work frame this question.  First, geometric
+obstructions: domains with corners scatter every incident wave
+\cite{BlastenPaivarintaSylvester2014,PaivarintaSaloVesalainen2017,
+ElschnerHu2015}, and non-scattering forces strong boundary regularity
+\cite{SaloShahgholian2021,CakoniVogelius2023,CakoniVogeliusXiao2023}, so
+any example must have smooth, indeed essentially real-analytic, boundary.
+Second, spectral necessity: non-scattering requires an interior
+transmission eigenpair \cite{Kirsch1986,ColtonMonk1988,
+CakoniColtonHaddar2016}, but a transmission eigenpair alone does not supply
+a physical incident field, and for broad families of perturbed discs the
+nonscattering wave numbers of physical incident waves are at most finite
+\cite{VogeliusXiao2021,HovsepyanVogelius2025}.  Radial homogeneous
+inclusions are the classical exception; whether any noncircular homogeneous
+inclusion admits an exactly non-scattering physical incident wave has
+remained open \cite{CakoniVogelius2026}.
+
+A neighboring overdetermined problem is Schiffer's conjecture, which is
+closely tied to the Pompeiu problem
+\cite{Pompeiu1929,BrownSchreiberTaylor1973,Williams1976,Berenstein1980}.
+It asks whether a bounded domain admitting a nonconstant solution of
+\begin{equation}\label{eq:schiffer-intro}
+  (\Delta+\lambda)u=0\quad\text{in }D,
+  \qquad
+  u=1,
+  \quad
+  \partial_\nu u=0
+  \quad\text{on }\partial D
+\end{equation}
+must be a disc.  Colbrook and Stepaniants recently constructed a
+computer-assisted noncircular counterexample with real-analytic boundary,
+and Cao-Labora and de Dios Pont independently produced infinitely many
+bifurcating counterexamples
+\cite{ColbrookStepaniants2026,CaoLaboraDeDiosPont2026}.  These results do not
+immediately solve the scattering problem: at positive frequency the constant
+function $1$ does not satisfy the exterior Helmholtz equation.
+
+The central observation of this paper is that the Schiffer datum can be
+replaced by a genuine radial Helmholtz wave.  More precisely, a regular
+Schiffer zero persists when the constant boundary datum is deformed to
+\[
+  J_0(\sqrt\tau\,\abs{x})=1-\frac\tau4\abs{x}^2+O(\tau^2).
+\]
+The resulting transmission pair has exterior squared wavenumber $\tau$ and
+interior squared wavenumber close to the Schiffer eigenvalue.  A final
+dilation fixes the exterior wavenumber at $k=1$.  This answers the
+constant-index, noncircular, physical-incident-field existence question
+affirmatively in the two-dimensional scalar model.  Thus the construction is a
+subwavelength, high-contrast resonance: the physical diameter shrinks like
+$\sqrt\tau$, while the interior optical size remains finite.
+
+\subsection{Main result}
+
+Let
+\begin{equation}\label{eq:herglotz}
+  h(d)=\frac1{\sqrt{2\pi}},
+  \qquad
+  v(x)=\int_{\Sone}e^{ix\cdot d}h(d)\dd s(d)
+      =\sqrt{2\pi}\,J_0(\abs{x}).
+\end{equation}
+Then $h\in L^2(\Sone)$, $\norm{h}_{L^2}=1$, and $(\Delta+1)v=0$ in
+$\R^2$.
+
+\begin{theorem}[Exact non-scattering family]\label{thm:main}
+For every $0<\tau\le10^{-13}$ there exist a bounded simply connected domain
+$\Omega_\tau\subset\R^2$, a constant $q_\tau>0$, and an interior field
+$U_\tau$ such that:
+\begin{enumerate}[label=\textup{(\roman*)},leftmargin=2.2em]
+  \item $\partial\Omega_\tau$ is a real-analytic Jordan curve and
+  $\Omega_\tau$ is not a disc;
+  \item $q_\tau\ne1$;
+  \item
+  \[
+    (\Delta+q_\tau)U_\tau=0\quad\text{in }\Omega_\tau;
+  \]
+  \item $U_\tau=v$ and
+  $\partial_\nu U_\tau=\partial_\nu v$ on $\partial\Omega_\tau$.
+\end{enumerate}
+Consequently the radiating scattered field and the far-field pattern vanish
+identically for the normalized Herglotz incident wave \eqref{eq:herglotz} at
+exterior wavenumber $k=1$.
+\end{theorem}
+
+The construction is exact, not a finite multipole cancellation.  For each
+$\tau$, a contraction theorem selects a unique infinite coefficient pair
+$(\gamma_\tau,p_\tau)$ in a fixed certified Banach ball.  If
+\begin{equation}\label{eq:phi}
+  \phi_p(z)=z+\sum_{j\ge1}
+  \frac{p_j}{p_0(10j+1)}z^{10j+1},
+\end{equation}
+then
+\begin{equation}\label{eq:Omegaq}
+  \Omega_\tau=\sqrt\tau\,\phi_{p_\tau}(\D),
+  \qquad
+  q_\tau=\frac{p_{\tau,0}^2}{\tau}.
+\end{equation}
+
+\begin{figure}[t]
+  \centering
+  \input{figures/domain_boundary}
+  \caption{The certified Schiffer shape.  Left: the image of the unit
+  circle under $\phi_{\bar p}$ for the exact certificate center $\bar p$
+  of \cite{ColbrookStepaniants2026,ColbrookStepaniantsCert2026} (solid),
+  against the unit circle (dashed); the boundary radius varies between
+  $0.9705$ and $1.0452$.  Right: the radial profile
+  $\abs{\phi_{\bar p}(e^{i\theta})}-1$ over two of the ten symmetry
+  periods.  Every domain $\Omega_\tau=\sqrt\tau\,\phi_{p_\tau}(\D)$ of
+  \cref{thm:main} is a dilate of a small perturbation of this shape: the
+  certified zero stays within $10^{-6}$ of $\bar x$ in the weighted norm.}
+  \label{fig:domain}
+\end{figure}
+
+\begin{corollary}[Prescribed high contrast]\label{cor:contrast}
+For every real $Q\ge1.03\times10^{16}$ there exists a bounded simply
+connected non-disc with real-analytic Jordan boundary and constant relative
+permittivity exactly $Q$ that is non-scattering for the same incident wave
+\eqref{eq:herglotz} at exterior wavenumber one.
+\end{corollary}
+
+\subsection{Proof mechanism}
+
+The argument has four steps.
+\begin{enumerate}[leftmargin=2.2em]
+  \item The Colbrook--Stepaniants theorem supplies a regular noncircular
+  Schiffer zero in a weighted coefficient algebra.
+  \item We introduce a Bessel-deformed fixed-disc equation $F_\tau=0$ whose
+  zero is exactly equivalent to matching the physical Bessel Cauchy data.
+  \item The implicit-function theorem gives a local branch abstractly, and
+  explicit perturbation bounds show that the original contraction ball
+  remains valid for all $0\le\tau\le10^{-13}$.
+  \item Conformal covariance and dilation produce the physical domain,
+  constant contrast, and exact zero scattered field.
+\end{enumerate}
+The full numerical provenance, the executable verifiers, and a Lean
+re-verification of the certificate arithmetic are separated into the
+accompanying verification supplement; the present article contains the
+mathematical construction and proof.
+
+\section{The certified Schiffer seed}\label{sec:seed}
+
+We use the fixed-disc formulation of
+\cite{ColbrookStepaniants2026}.  Let $X_\rho$ and $Y_\rho$ be their weighted
+real coefficient spaces, with $\rho=1.05$.  A shape sequence has ten-fold
+symmetry,
+\begin{equation}\label{eq:p}
+  p(z)=\sum_{j\ge0}p_jz^{10j},
+  \qquad p_0>0,
+\end{equation}
+and is related to \eqref{eq:phi} by
+\begin{equation}\label{eq:p-phi}
+  p=p_0\phi_p'.
+\end{equation}
+The operator $K$ is an explicit inverse of the Laplacian on the compatible
+coefficient range and satisfies
+\begin{equation}\label{eq:K}
+  \Delta K\gamma=\gamma,
+  \qquad
+  K\gamma=\partial_rK\gamma=0
+  \quad\text{on }\partial\D.
+\end{equation}
+The Schiffer equation is
+\begin{equation}\label{eq:F0}
+  F_0(\gamma,p)
+  :=\gamma+\abs{p}^2(1+K\gamma)=0.
+\end{equation}
+Indeed, if $W=K\gamma$ and $\widetilde u=1+W$, then
+\[
+  \Delta\widetilde u+\abs p^2\widetilde u=0
+  \quad\text{in }\D,
+  \qquad
+  \widetilde u=1,
+  \quad
+  \partial_r\widetilde u=0
+  \quad\text{on }\partial\D.
+\]
+Using \eqref{eq:p-phi}, the push-forward to $\phi_p(\D)$ has constant
+interior squared wavenumber $p_0^2$.
+
+The following summarizes precisely the consequences of the
+Colbrook--Stepaniants computer-assisted theorem used here.
+
+\begin{proposition}[Certified Schiffer seed]\label{prop:seed}
+There is a center $\bar x=(\bar\gamma,\bar p)\in X_\rho$, a radius
+$r=10^{-6}$, an invertible bounded operator
+$\mathcal A:Y_\rho\to X_\rho$, and a unique exact zero
+$x_\star=(\gamma_\star,p_\star)$ of $F_0$ in the closed ball
+$B_r(\bar x)$ with the following properties.
+\begin{enumerate}[label=\textup{(\alph*)},leftmargin=2.2em]
+  \item Let $T_0=I-\mathcal AF_0$.  The certificate provides exact cubic
+  Taylor majorants
+  $Y\le1.59\times10^{-10}$, $Z\le0.621$, $C_2\le122$, $C_3\le0.012$ such
+  that, on $B_r(\bar x)$,
+  \[
+    \sup_{B_r(\bar x)}\norm{T_0(x)-\bar x}\le Y+Zr+C_2r^2+C_3r^3,
+    \qquad
+    \sup_{B_r(\bar x)}\norm{DT_0}\le Z+2C_2r+3C_3r^2.
+  \]
+  Writing $R_0:=Y+Zr+C_2r^2+C_3r^3-r$ for the invariant-ball defect and
+  $L_0:=Z+2C_2r+3C_3r^2$ for the contraction constant, exact rational
+  evaluation gives
+  \begin{align}
+    R_0&\le-0.000000378718999999988<0,
+    \label{eq:R0}\\
+    L_0&\le0.621244000000036<1,
+    \label{eq:L0}
+  \end{align}
+  so $T_0$ maps $B_r(\bar x)$ into itself and is a strict contraction
+  there.
+  \item Every $p$ in the ball satisfies
+  \begin{equation}\label{eq:seedbounds}
+    \norm p_\rho<55,
+    \qquad 31<p_0<32,
+    \qquad
+    \sum_{j\ge1}\abs{p_j/p_0}<0.65.
+  \end{equation}
+  \item $\phi_p$ is univalent on a neighborhood of $\overline\D$, and its
+  first nonconstant shape coefficient does not vanish.  Hence
+  $\phi_p(\D)$ is a bounded simply connected non-disc with real-analytic
+  Jordan boundary.
+  \item The preconditioner satisfies
+  \begin{equation}\label{eq:A}
+    \norm{\mathcal A}<1180.
+  \end{equation}
+\end{enumerate}
+\end{proposition}
+
+\Cref{prop:seed} restates, in the notation of this paper, the certified
+outputs of \cite[Eqs.~(3)--(5) and~(22), Lemma~2.4, Theorem~1.1]
+{ColbrookStepaniants2026} and of the released validation certificate
+\cite{ColbrookStepaniantsCert2026}, whose pinned hashes and replay commands
+are recorded in the verification supplement.  The bound \eqref{eq:A}
+follows from the upstream identity $C_3=\norm{\mathcal A}/(96\bar p_0^2)$
+together with $C_3\le0.012$ and the exact center value $\bar p_0<32$:
+\[
+  \norm{\mathcal A}=96\bar p_0^2C_3<96\cdot32^2\cdot0.012=1179.648<1180.
+\]
+It therefore does not depend on reconstructing the norm of the upstream
+approximate inverse to many digits.
+
+\begin{remark}[Epistemic status]\label{rem:conditional}
+\Cref{thm:main} is conditional on the computer-assisted theorem of
+\cite{ColbrookStepaniants2026}, which at the time of writing is a very
+recent preprint.  Everything imported from it is confined to
+\cref{prop:seed}; the accompanying release pins the upstream certificate by
+cryptographic hash, replays its authenticated checker, and machine-compares
+every constant in \cref{prop:seed} against the pinned upstream data.
+\end{remark}
+
+\begin{lemma}[Regularity of the certified zero]\label{lem:regular}
+The derivative $DF_0(x_\star):X_\rho\to Y_\rho$ is a bounded linear
+isomorphism.
+\end{lemma}
+
+\begin{proof}
+At the fixed point,
+\[
+  DT_0(x_\star)=I-\mathcal ADF_0(x_\star).
+\]
+By \eqref{eq:L0}, $\norm{DT_0(x_\star)}<1$.  Hence
+$I-DT_0(x_\star)=\mathcal ADF_0(x_\star)$ is invertible by the
+Neumann-series lemma.  Since $\mathcal A$ is invertible, so is
+$DF_0(x_\star)$.
+\end{proof}
+
+\section{The Bessel-deformed transmission equation}\label{sec:deformation}
+
+For $\tau\ge0$, define
+\begin{equation}\label{eq:H}
+  H_{\tau,p}(z)
+  :=\sum_{n=0}^{\infty}
+  \frac{(-1)^n}{(n!)^2}
+  \left(\frac{\tau\abs{\phi_p(z)}^2}{4}\right)^n.
+\end{equation}
+For $\tau>0$,
+\begin{equation}\label{eq:HJ0}
+  H_{\tau,p}(z)=J_0\!\left(\sqrt\tau\,\abs{\phi_p(z)}\right),
+\end{equation}
+and $H_{0,p}=1$.  The power-series definition makes the dependence on
+$\tau$ analytic at zero.  Conformal covariance of the Laplacian and
+\eqref{eq:p-phi} give
+\begin{equation}\label{eq:Hpde}
+  \Delta H_{\tau,p}
+  +\frac{\tau}{p_0^2}\abs p^2H_{\tau,p}=0
+  \quad\text{in }\D.
+\end{equation}
+
+We now define the deformed operator
+\begin{equation}\label{eq:Ftau}
+  F_\tau(\gamma,p)
+  :=\gamma+\abs p^2K\gamma
+   +\abs p^2\left(1-\frac\tau{p_0^2}\right)H_{\tau,p}.
+\end{equation}
+At $\tau=0$, this is exactly \eqref{eq:F0}.
+
+\begin{lemma}[Fixed-disc transmission identity]\label{lem:fixed-disc}
+If $F_\tau(\gamma,p)=0$ and
+\begin{equation}\label{eq:Utilde}
+  \widetilde U_{\tau,p}:=H_{\tau,p}+K\gamma,
+\end{equation}
+then
+\begin{equation}\label{eq:Utildepde}
+  \Delta\widetilde U_{\tau,p}
+  +\abs p^2\widetilde U_{\tau,p}=0
+  \quad\text{in }\D.
+\end{equation}
+Moreover, $\widetilde U_{\tau,p}$ and $H_{\tau,p}$ have identical
+Dirichlet and radial Neumann traces on $\partial\D$.
+\end{lemma}
+
+\begin{proof}
+Using \eqref{eq:K} and \eqref{eq:Hpde}, the left-hand side of
+\eqref{eq:Utildepde} is exactly $F_\tau(\gamma,p)$.  The trace statement
+follows from the two clamped trace identities in \eqref{eq:K}.
+\end{proof}
+
+The preceding equation reveals the continuation mechanism independently of
+the particular numerical seed.
+
+\begin{theorem}[Regular Schiffer zeros generate physical non-scatterers]
+\label{thm:abstract}
+Let $x_\star=(\gamma_\star,p_\star)$ be a zero of $F_0$ such that
+$DF_0(x_\star)$ is invertible, $p_{\star,0}>0$, and $\phi_{p_\star}$ is
+univalent on a neighborhood of $\overline\D$ and non-affine.  Then there
+are $\varepsilon>0$ and a real-analytic branch
+\[
+  (-\varepsilon,\varepsilon)\ni\tau
+  \longmapsto x_\tau=(\gamma_\tau,p_\tau)
+\]
+with $F_\tau(x_\tau)=0$ and $x_\tau\to x_\star$ as $\tau\to0$.  For every
+sufficiently small $\tau>0$, the scaled domain
+$\sqrt\tau\,\phi_{p_\tau}(\D)$ is a noncircular homogeneous dielectric that
+is exactly non-scattering for the incident wave \eqref{eq:herglotz} at
+exterior wavenumber one.
+\end{theorem}
+
+\begin{proof}
+The series \eqref{eq:H} converges normally in a neighborhood of
+$(0,x_\star)$ in the weighted coefficient algebra.  Hence
+$(\tau,x)\mapsto F_\tau(x)$ is real analytic there.  The analytic
+implicit-function theorem and the invertibility of $DF_0(x_\star)$ produce
+the branch.  Univalence on a complex collar and non-affineness are open in
+the weighted coefficient norm, so they persist for small $\tau$.
+Non-affineness excludes a disc through the ten-fold symmetry of the ansatz
+\eqref{eq:phi}: with $\omega=e^{2\pi i/10}$ one has
+$\phi_p(\omega z)=\omega\phi_p(z)$, so the image is invariant under
+rotation by $\omega$; a disc with this invariance is centered at the
+origin, and the unique Riemann map of $\D$ onto such a disc with
+$\phi(0)=0$ and $\phi'(0)>0$ is linear.  A non-affine $\phi_p$ therefore
+cannot map $\D$ onto a disc.
+
+For $\tau>0$, \cref{lem:fixed-disc} supplies two fields with equal Cauchy
+data on the unit circle.  Pushing them forward by $\phi_{p_\tau}$ gives
+exterior squared wavenumber $\tau$ and interior squared wavenumber
+$p_{\tau,0}^2$.  Dilation by $\sqrt\tau$ fixes the exterior wavenumber at
+one and changes the interior squared wavenumber to
+$p_{\tau,0}^2/\tau$.  The complete physical verification is given in
+\cref{sec:physical}.
+\end{proof}
+
+\section{A uniform certified branch}\label{sec:quantitative}
+
+The abstract theorem gives a local branch but no explicit interval.  We now
+show that the entire Schiffer contraction ball remains valid for
+$0\le\tau\le10^{-13}$.  Put
+\[
+  \delta F_\tau:=F_\tau-F_0.
+\]
+All norms below are the weighted coefficient majorants of
+\cite{ColbrookStepaniants2026}.  One structural property of that algebra is
+used repeatedly and deserves to be isolated.
+
+\begin{lemma}[Radial multiplication is nonexpansive]\label{lem:radial}
+In the weighted coefficient algebra of
+\cite{ColbrookStepaniants2026,ColbrookStepaniantsCert2026} the norm is a
+weighted $\ell^1$ sum over a basis indexed by an angular block index $\ell$
+and a radial index $s$, with weight $c_\ell\rho^\ell$ depending on $\ell$
+only.  Multiplication by the radial factor $\abs z^2$ raises the radial
+index and leaves the angular index and the weight unchanged.  Hence
+$\norm{\abs z^2f}\le\norm f$ for every $f$, and for any product
+decomposition $\phi_p(z)=z\psi_p(z)$,
+\[
+  \norm{\abs{\phi_p}^2}
+  =\norm{\abs z^2\abs{\psi_p}^2}
+  \le\norm{\psi_p}^2 .
+\]
+\end{lemma}
+
+\begin{proof}
+The norm and the multiplication recurrences are specified in
+\cite[Validation Specification, \S\S2 and~4]{ColbrookStepaniantsCert2026}:
+the weights are $c_\ell\rho^\ell$ with $c_0=1$, $c_\ell=2$, independent of
+the radial index, and multiplication by $r^2$ acts as the pure radial shift
+$(\ell,s)\mapsto(\ell,s+1)$.  A shift with unchanged weights does not
+increase a weighted $\ell^1$ norm, and the final inequality is
+submultiplicativity of the algebra norm.
+\end{proof}
+
+Write $\phi_p(z)=z\psi_p(z)$.  From \eqref{eq:phi} and
+\eqref{eq:seedbounds},
+\begin{equation}\label{eq:psi}
+  \norm{\psi_p}
+  \le1+\frac1{11p_0}\sum_{j\ge1}\abs{p_j}\rho^j
+  \le1+\frac{\norm p_\rho-p_0}{11\cdot31}
+  \le1+\frac{55-31}{11\cdot31}
+  <\frac{11}{10},
+\end{equation}
+and therefore, by \cref{lem:radial},
+\begin{equation}\label{eq:phisq}
+  \norm{\abs{\phi_p}^2}\le\norm{\psi_p}^2<\frac{121}{100}<\frac54.
+\end{equation}
+Set $u=\tau\norm{\abs{\phi_p}^2}/4$.  For
+$0\le\tau\le10^{-13}$, $u<1/2$.  The full series \eqref{eq:H}, without
+truncation, therefore gives
+\begin{equation}\label{eq:Hbounds}
+  \norm{H_{\tau,p}}\le2,
+  \qquad
+  \norm{H_{\tau,p}-1}\le\frac58\tau.
+\end{equation}
+Since $p_0>31$,
+\begin{align}
+ \norm{\left(1-\frac\tau{p_0^2}\right)H_{\tau,p}-1}
+ &\le \norm{H_{\tau,p}-1}
+      +\frac\tau{p_0^2}\norm{H_{\tau,p}}\notag\\
+ &<\frac{63}{100}\tau.
+ \label{eq:Bbound}
+\end{align}
+Multiplication by $\norm p^2<55^2$ yields
+\begin{equation}\label{eq:value}
+  \boxed{\norm{\delta F_\tau}<1906\tau.}
+\end{equation}
+
+For the derivative estimate, let $\xi$ be a shape variation of full
+$X_\rho$ norm at most one.  The upstream product norm weights the shape
+block by $2\bar p_0\rho^j$
+\cite[Validation Specification, Eq.~(13)]{ColbrookStepaniantsCert2026},
+so
+\begin{equation}\label{eq:xibounds}
+  \norm\xi\le\frac1{2\bar p_0}<\frac1{62},
+  \qquad
+  \abs{\xi_0}<\frac1{62}.
+\end{equation}
+Differentiating \eqref{eq:phi} and using \eqref{eq:seedbounds} gives
+\begin{equation}\label{eq:Dpsi}
+  \norm{D\psi_p[\xi]}
+  \le\frac1{11}
+  \left(\frac{\norm\xi}{31}
+  +\frac{55\abs{\xi_0}}{31^2}\right)
+  <\frac1{7000}.
+\end{equation}
+Consequently
+\begin{equation}\label{eq:DRDH}
+  \norm{D\abs{\phi_p}^2[\xi]}
+  \le2\norm{\psi_p}\norm{D\psi_p[\xi]}
+  <\frac1{3000},
+  \qquad
+  \norm{DH_{\tau,p}[\xi]}\le\frac\tau{3000},
+\end{equation}
+where the first estimate again uses \cref{lem:radial}.
+Differentiating \eqref{eq:Ftau}, and combining
+\eqref{eq:Bbound}, \eqref{eq:Hbounds}, \eqref{eq:xibounds}, and
+\eqref{eq:DRDH}, gives
+\begin{equation}\label{eq:derivative}
+  \boxed{\norm{D\delta F_\tau}<3\tau.}
+\end{equation}
+The elementary constant arithmetic behind \eqref{eq:value} and
+\eqref{eq:derivative} is recorded in the verification supplement.
+
+Define
+\[
+  T_\tau(x)=x-\mathcal AF_\tau(x).
+\]
+On the original radius-$r$ ball,
+\eqref{eq:A}, \eqref{eq:value}, and \eqref{eq:derivative} give
+\begin{align}
+  R_\tau&\le R_0+1180\cdot1906\,\tau,
+  \label{eq:Rtau}\\
+  L_\tau&\le L_0+1180\cdot3\,\tau.
+  \label{eq:Ltau}
+\end{align}
+At $\tau_*=10^{-13}$,
+\begin{align}
+  R_{\tau_*}
+  &\le-0.000000153810999999988<0,
+  \label{eq:Rend}\\
+  L_{\tau_*}
+  &\le0.621244000354036<1.
+  \label{eq:Lend}
+\end{align}
+The right-hand sides of \eqref{eq:Rtau}--\eqref{eq:Ltau} increase with
+$\tau$.  Hence $T_\tau$ maps the same closed ball into itself and is a
+strict contraction for every $0\le\tau\le\tau_*$.  Banach's theorem gives a
+unique exact zero
+\begin{equation}\label{eq:branch}
+  x_\tau=(\gamma_\tau,p_\tau)\in B_r(\bar x)
+  \qquad(0\le\tau\le10^{-13}).
+\end{equation}
+Because the whole branch stays in the certified ball, all univalence,
+analytic-boundary, and noncircularity conclusions of
+\cref{prop:seed} hold uniformly.
+
+\section{The physical inclusion and exact zero scattering}\label{sec:physical}
+
+Fix $0<\tau\le10^{-13}$ and the exact zero
+$x_\tau=(\gamma_\tau,p_\tau)$ from \eqref{eq:branch}.  Define the domain and
+contrast by \eqref{eq:Omegaq}.  For $y\in\Omega_\tau$, put
+\[
+  z=\phi_{p_\tau}^{-1}\!\left(\frac y{\sqrt\tau}\right)
+\]
+and define
+\begin{equation}\label{eq:U}
+  U_\tau(y)
+  =\sqrt{2\pi}\left[
+    H_{\tau,p_\tau}(z)+K\gamma_\tau(z)
+  \right].
+\end{equation}
+Since $y=\sqrt\tau\,\phi_{p_\tau}(z)$,
+\begin{equation}\label{eq:HtoJ}
+  H_{\tau,p_\tau}(z)=J_0(\abs y).
+\end{equation}
+
+Conformal covariance transforms \eqref{eq:Utildepde} into an interior
+Helmholtz equation with squared wavenumber $p_{\tau,0}^2$ on
+$\phi_{p_\tau}(\D)$.  The dilation $y=\sqrt\tau\,x$ therefore gives
+\begin{equation}\label{eq:Upde}
+  (\Delta_y+q_\tau)U_\tau=0
+  \quad\text{in }\Omega_\tau,
+  \qquad
+  q_\tau=\frac{p_{\tau,0}^2}{\tau}.
+\end{equation}
+By \eqref{eq:seedbounds},
+\begin{equation}\label{eq:qnot1}
+  q_\tau>\frac{31^2}{10^{-13}}>1,
+\end{equation}
+so $q_\tau$ is positive and nonunit.
+
+It remains to check the traces.  The difference between the pulled-back
+interior field and the pulled-back incident field is $K\gamma_\tau$, whose
+Dirichlet and radial Neumann traces vanish by \eqref{eq:K}.  Under a
+conformal map the normal derivative is multiplied by a nonzero boundary
+scale factor, and under dilation it is multiplied by another nonzero
+constant.  Thus zero remains zero, and \eqref{eq:HtoJ} gives
+\begin{equation}\label{eq:physicaltraces}
+  U_\tau=v,
+  \qquad
+  \partial_\nu U_\tau=\partial_\nu v
+  \quad\text{on }\partial\Omega_\tau.
+\end{equation}
+
+For completeness, writing $d=(\cos\theta,\sin\theta)$,
+\[
+  \int_0^{2\pi}e^{ix\cdot d}\dd\theta
+  =2\pi J_0(\abs x),
+\]
+so \eqref{eq:herglotz} follows, and
+\[
+  \norm h_{L^2(\Sone)}^2
+  =\int_0^{2\pi}\frac1{2\pi}\dd\theta=1.
+\]
+The incident field is therefore a nonzero normalized $L^2$-Herglotz wave.
+
+Define the total field piecewise by $U_\tau$ in $\Omega_\tau$ and by $v$ in
+the exterior.  Equation \eqref{eq:physicaltraces} makes it a transmission
+solution.  Its exterior scattered component is identically zero, which
+satisfies the Sommerfeld radiation condition and has zero far-field pattern.
+Because $q_\tau$ is a bounded positive constant, the direct transmission
+problem for the incident field $v$ has exactly one solution
+\cite[Chapter~8]{ColtonKress2019}; the solution just exhibited is therefore
+the physical total field, and the scattered field of $\Omega_\tau$ for $v$
+vanishes identically.  This proves \cref{thm:main}.
+
+\section{Consequences and interpretation}\label{sec:consequences}
+
+\subsection{Prescribing the contrast}
+
+The contraction maps $T_\tau$ depend continuously on $\tau$ and have a
+uniform Lipschitz constant strictly below one.  Hence their unique fixed
+points depend continuously on $\tau$.  One may see this directly from
+\begin{equation}\label{eq:stability}
+  \norm{x_\tau-x_\sigma}
+  \le
+  \frac{\norm{T_\tau(x_\sigma)-T_\sigma(x_\sigma)}}{1-L},
+\end{equation}
+where $L<1$ is any common contraction constant.  Thus
+$\tau\mapsto p_{\tau,0}$ and
+\[
+  q_\tau=\frac{p_{\tau,0}^2}{\tau}
+\]
+are continuous on $(0,10^{-13}]$.  Since
+$p_{\tau,0}\to p_{\star,0}>31$ as $\tau\downarrow0$,
+\begin{equation}\label{eq:qinfty}
+  q_\tau\longrightarrow+\infty.
+\end{equation}
+At $\tau_*=10^{-13}$, the upper bound $p_{\tau_*,0}<32$ gives
+\begin{equation}\label{eq:qendpoint}
+  q_{\tau_*}
+  <\frac{32^2}{10^{-13}}
+  =1.024\times10^{16}.
+\end{equation}
+For any $Q\ge1.03\times10^{16}$, choose $\delta>0$ small enough that
+$q_\delta>Q$.  The intermediate-value theorem on
+$[\delta,\tau_*]$ and \eqref{eq:qendpoint} produce some $\tau$ with
+$q_\tau=Q$.  This proves \cref{cor:contrast}.
+
+\subsection{The subwavelength/high-index regime}
+
+At fixed exterior wavenumber one, the diameter of $\Omega_\tau$ is
+$O(\sqrt\tau)$, whereas
+\begin{equation}\label{eq:opticalsize}
+  \sqrt{q_\tau}\,\sqrt\tau=p_{\tau,0}
+  \longrightarrow p_{\star,0}\approx31.967.
+\end{equation}
+Thus the family maintains a finite interior optical size by increasing the
+positive refractive index as the physical inclusion shrinks.  The result is
+an existence theorem for homogeneous, passive, positive-index material, but
+it does not yet reach moderate contrast.  Natural next questions are whether
+other Schiffer branches, nonradial Herglotz controls, or continuation farther
+from $\tau=0$ can reduce the required contrast, and whether an analogous
+mechanism exists for the full three-dimensional vector Maxwell system.
+
+\section*{Reproducibility and formal verification}
+
+The accompanying release contains the exact certificate data, independent
+exact-arithmetic verifiers that rederive the perturbation constants of
+\cref{sec:quantitative} from the certified ball bounds, the pinned and
+replayed upstream dependency, and a Lean~4 re-verification of the exact
+rational certificate arithmetic together with generic fixed-point lemmas in
+the form used here.  The Lean development does not formalize the operator
+estimates, the upstream certificate, or the scattering analysis; its exact
+boundary, the numerical provenance, and the replay commands are recorded in
+a separate verification supplement so that they do not obscure the
+mathematical argument above.
+
+\section*{Declaration of computational assistance}
+
+The author gratefully acknowledges \textbf{GPT-5.6 Sol Pro} (OpenAI), which
+was used extensively as a research and development assistant for theorem
+exploration, literature synthesis, symbolic and numerical checking, code and
+Lean-formalization generation, and drafting and editing this manuscript.  The
+author reviewed and revised all generated material and takes responsibility
+for every mathematical claim, computation, and conclusion in the submitted
+work.
+
+\input{references.tex}
+
+\end{document}

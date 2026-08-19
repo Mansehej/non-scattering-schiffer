@@ -1,0 +1,1 @@
+Lean project-source scan (6 files): no proof holes, axioms, or escape hatches
