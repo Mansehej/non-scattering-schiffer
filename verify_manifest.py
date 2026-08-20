@@ -34,7 +34,7 @@ def main() -> int:
         if not path.is_file() or path == MANIFEST:
             return False
         rel = path.relative_to(ROOT)
-        if ".lake" in rel.parts or ".git" in rel.parts:
+        if ".lake" in rel.parts or ".git" in rel.parts or "private" in rel.parts:
             return False
         if path.suffix in generated_suffixes and rel.parts and rel.parts[0] == "paper":
             return False

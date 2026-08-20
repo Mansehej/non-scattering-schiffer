@@ -10,3 +10,4 @@ paper/*.synctex.gz
 formalization/.lake/
 verification/upstream_work/
 verification/rendered/
+private/

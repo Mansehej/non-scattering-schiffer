@@ -77,6 +77,5 @@ the `#print axioms` report shows only standard classical axioms; see
 
 ## Licensing
 
-The proposed release license is CC BY 4.0 for the manuscript and MIT for
-software/formalization.  Confirm this choice before depositing publicly; see
-`SUBMISSION_CHECKLIST.md`.
+The manuscript is released under CC BY 4.0 and the software/formalization
+under MIT; see `LICENSE-PAPER.md` and `LICENSE-CODE`.
