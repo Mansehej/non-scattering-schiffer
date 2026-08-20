@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.2.2 - 2026-08-20
+
+- Restricted the public archive to supplementary materials for the Zenodo
+  record: removed internal working documents (release tracker, submission
+  checklist, review and novelty memos, correspondence draft, deposition
+  notes) from the repository and its history.
+- Manifest scripts exclude the untracked local working directory;
+  regenerated `SHA256SUMS` (70 files).
+
 ## v1.2.1 - 2026-08-19
 
 - Completed the pinned-toolchain Lean kernel build (Lean/mathlib v4.32.1):

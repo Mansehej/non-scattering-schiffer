@@ -1,9 +1,9 @@
 # Exact non-scattering homogeneous dielectrics from Schiffer counterexamples
 
-**Preprint release v1.2.1 - 19 August 2026**
+**Preprint release v1.2.2 - 20 August 2026**
 
 Archived: [doi:10.5281/zenodo.22016374](https://doi.org/10.5281/zenodo.22016374)
-(version 1.2.1: [doi:10.5281/zenodo.22016375](https://doi.org/10.5281/zenodo.22016375))  
+(concept DOI; resolves to the latest archived version)  
 Repository: <https://github.com/Mansehej/non-scattering-schiffer>
 
 This release accompanies the preprint
