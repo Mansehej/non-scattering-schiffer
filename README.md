@@ -30,13 +30,17 @@ and every prescribed contrast `Q >= 1.03 * 10^16` is attained.
 
 ## Start here
 
-- `non_scattering_preprint.pdf` - focused research article.
-- `non_scattering_verification_supplement.pdf` - certificate, verifier, and replay details.
-- `paper/main.tex` and `paper/supplement.tex` - rebuildable LaTeX sources.
+- `paper/main.pdf` - focused research article (source: `paper/main.tex`).
+- `paper/supplement.pdf` - certificate, verifier, and replay details.
+- `paper/two_page_summary.pdf` - self-contained two-page note stating the
+  imported conventions and constants, written for independent review of the
+  upstream normalization.
 - `verification/reproduce.sh` - exact executable checks (offline).
 - `verification/fetch_and_check_upstream.sh` - upstream fetch, hash check, and replay.
 - `formalization/` - narrow Lean 4/mathlib re-verification of the certificate arithmetic.
 - `docs/FORMALIZATION_BOUNDARY.md` - exact formalization boundary.
+- `docs/CONVENTIONS.md` - frozen definitional distinctions used throughout.
+- `docs/FAILURE_MODES_CHECKED.md` - failure modes the verification defends against.
 
 The main article presents the discovery and mathematical proof.  Operational
 provenance, hashes, verifier design, formalization boundaries, and replay

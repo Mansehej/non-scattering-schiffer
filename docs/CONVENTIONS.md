@@ -1,6 +1,4 @@
-# Convention and specification audit
-
-Timestamp: 18 August 2026 (Europe/London)
+# Conventions and frozen distinctions
 
 ## Frozen distinctions
 

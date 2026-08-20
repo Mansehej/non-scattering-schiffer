@@ -1,4 +1,4 @@
-# Adversarial audit
+# Failure modes checked
 
 ## Mathematical failure modes checked
 
